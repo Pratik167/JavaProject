@@ -41,6 +41,7 @@ public class RenterDashBoard extends javax.swing.JFrame {
     
 public RenterDashBoard() {
     initComponents();
+    
     this.setLocationRelativeTo(null);
 }
 
@@ -125,9 +126,6 @@ public RenterDashBoard(String username) {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setPreferredSize(new java.awt.Dimension(1366, 768));
         jPanel3.setLayout(null);
-
-        pfp.setBackground(new java.awt.Color(0, 255, 0));
-        pfp.setOpaque(true);
         jPanel3.add(pfp);
         pfp.setBounds(1280, 20, 60, 60);
 
@@ -198,15 +196,14 @@ public RenterDashBoard(String username) {
                 .addGap(24, 24, 24)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pfield, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(mfield1, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
-                        .addComponent(location, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(mfield)
-                        .addComponent(uname)
-                        .addComponent(ufield)
-                        .addComponent(brand)
-                        .addComponent(bfield)
-                        .addComponent(model, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(mfield1, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                    .addComponent(location, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mfield)
+                    .addComponent(uname)
+                    .addComponent(ufield)
+                    .addComponent(brand)
+                    .addComponent(bfield)
+                    .addComponent(model, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(price))
                 .addContainerGap(101, Short.MAX_VALUE))
         );

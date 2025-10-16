@@ -103,6 +103,8 @@ public void setProfilePictureFromCustomer() {
         homee = new javax.swing.JLabel();
         pfp = new javax.swing.JLabel();
         renter = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         book = new javax.swing.JPanel();
         pickup = new RoundedPanel(25);
         dateField1 = new RoundedTextField(25);
@@ -161,6 +163,24 @@ public void setProfilePictureFromCustomer() {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabel3.setText("Bookings");
+        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel3MouseClicked(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabel5.setText("Your Rentals");
+        jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout whitepanelLayout = new javax.swing.GroupLayout(whitepanel);
         whitepanel.setLayout(whitepanelLayout);
         whitepanelLayout.setHorizontalGroup(
@@ -176,9 +196,13 @@ public void setProfilePictureFromCustomer() {
                         .addComponent(jLabel2)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(homee)
-                .addGap(350, 350, 350)
+                .addGap(116, 116, 116)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(79, 79, 79)
+                .addComponent(jLabel5)
+                .addGap(110, 110, 110)
                 .addComponent(renter)
-                .addGap(255, 255, 255)
+                .addGap(86, 86, 86)
                 .addComponent(pfp, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
         );
@@ -188,7 +212,9 @@ public void setProfilePictureFromCustomer() {
                 .addGap(22, 22, 22)
                 .addGroup(whitepanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(homee)
-                    .addComponent(renter))
+                    .addComponent(renter)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, whitepanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -568,6 +594,18 @@ public void setProfilePictureFromCustomer() {
         StylishPopup.showError(this, "Error: " + ex.getMessage());
     }
     }//GEN-LAST:event_renterMouseClicked
+
+    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+        your_bookings rentals = new your_bookings(this.username);
+    rentals.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_jLabel3MouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        Own_Rentals rentals = new Own_Rentals(this.username);
+    rentals.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_jLabel5MouseClicked
     
     /**
      * @param args the command line arguments
@@ -595,7 +633,9 @@ public void setProfilePictureFromCustomer() {
     private javax.swing.JLabel homee;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel pfp;

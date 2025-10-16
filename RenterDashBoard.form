@@ -80,12 +80,6 @@
           </Layout>
           <SubComponents>
             <Component class="javax.swing.JLabel" name="pfp">
-              <Properties>
-                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="0" green="ff" red="0" type="rgb"/>
-                </Property>
-                <Property name="opaque" type="boolean" value="true"/>
-              </Properties>
               <Constraints>
                 <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout" value="org.netbeans.modules.form.compat2.layouts.DesignAbsoluteLayout$AbsoluteConstraintsDescription">
                   <AbsoluteConstraints x="1280" y="20" width="60" height="60"/>
@@ -140,16 +134,14 @@
                           <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="pfield" pref="185" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="mfield1" pref="185" max="32767" attributes="0"/>
-                                  <Component id="location" min="-2" pref="69" max="-2" attributes="0"/>
-                                  <Component id="mfield" max="32767" attributes="0"/>
-                                  <Component id="uname" min="-2" max="-2" attributes="0"/>
-                                  <Component id="ufield" max="32767" attributes="0"/>
-                                  <Component id="brand" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="bfield" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="model" min="-2" pref="69" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="mfield1" pref="185" max="32767" attributes="0"/>
+                              <Component id="location" min="-2" pref="69" max="-2" attributes="0"/>
+                              <Component id="mfield" max="32767" attributes="0"/>
+                              <Component id="uname" min="-2" max="-2" attributes="0"/>
+                              <Component id="ufield" max="32767" attributes="0"/>
+                              <Component id="brand" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="bfield" alignment="0" max="32767" attributes="0"/>
+                              <Component id="model" min="-2" pref="69" max="-2" attributes="0"/>
                               <Component id="price" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="101" max="32767" attributes="0"/>

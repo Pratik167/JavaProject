@@ -13,6 +13,7 @@ import java.awt.Color;
 import Rent_Rover.GradientPanel;
 import Rent_Rover.GradientPanel.Direction;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -34,6 +35,7 @@ import java.util.Calendar;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -50,7 +52,7 @@ public class Customer_DashBoard_Logged extends javax.swing.JFrame {
     private String username;
     public Customer_DashBoard_Logged(String pickup, String dropoff, String pickupDate, String dropoffDate, String username) {
     initComponents();
-
+    
     // Store username for later use
     this.username = username;
 
@@ -77,8 +79,11 @@ loadBookings();
 
     private void setProfilePicture(String username) {
     try {
+        // Set balance in label
+
+
         Connection con = DB.getConnection();
-        String query = "SELECT profile_picture FROM customer WHERE username = ?";
+        String query = "SELECT profile_picture, balance FROM customer WHERE username = ?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, username);
         ResultSet rs = ps.executeQuery();
@@ -91,6 +96,8 @@ loadBookings();
                 pfp.setIcon(new ImageIcon(image));
                 CircularLabel.makeCircular(pfp);
             }
+            int balance = rs.getInt("balance");
+            Balance.setText("Rs " + balance);
         }
 
         rs.close();
@@ -101,6 +108,13 @@ loadBookings();
     }
 }
 
+// Constructor to open dashboard with just username
+public Customer_DashBoard_Logged(String username) {
+    initComponents();
+    this.username = username;
+    setProfilePicture(username);  // load user info
+    loadBookings();               // load rentals/vehicles
+}
 
     public Customer_DashBoard_Logged() {
         initComponents();
@@ -125,15 +139,16 @@ loadBookings();
 // Updated createBookingPanel to include hover effect and full click functionality
 private JPanel createBookingPanel(String vehicleName, byte[] vehicleImage,
                                   String location, String createdAt,
-                                  String pricePerDay, String ownerUsername) {
+                                  String pricePerDay, String ownerUsername,
+                                  String bookedBy) { // no extra parameters
 
     final int CARD_HEIGHT = 150;
-    final int CARD_WIDTH = 1000; // fallback width; will be resized by BoxLayout/scrollpane
+    final int CARD_WIDTH = 1000;
 
     JPanel panel = new JPanel(null);
     panel.setPreferredSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));
     panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, CARD_HEIGHT));
-    panel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    panel.setAlignmentX(Component.LEFT_ALIGNMENT);
     panel.setBackground(Color.WHITE);
     panel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
@@ -165,7 +180,7 @@ private JPanel createBookingPanel(String vehicleName, byte[] vehicleImage,
     panel.add(ownerLabel);
 
     // Location + price
-    JLabel locPrice = new JLabel("Location: " + location + "   |   Price/day: " + pricePerDay);
+    JLabel locPrice = new JLabel("Location: " + location + "   |   Price/day: Rs " + pricePerDay);
     locPrice.setFont(new Font("SansSerif", Font.PLAIN, 13));
     locPrice.setBounds(150, 65, 600, 20);
     panel.add(locPrice);
@@ -177,21 +192,117 @@ private JPanel createBookingPanel(String vehicleName, byte[] vehicleImage,
     dateLabel.setBounds(150, 95, 400, 18);
     panel.add(dateLabel);
 
-    // Make whole panel clickable + hover
-    Border defaultBorder = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
-    Border hoverBorder   = BorderFactory.createLineBorder(new Color(0,120,215), 2);
+    // Booking status label
+    JLabel bookedByLabel = new JLabel();
+    bookedByLabel.setFont(new Font("SansSerif", Font.BOLD, 13));
+    bookedByLabel.setForeground(Color.BLUE);
+    bookedByLabel.setBounds(150, 115, 400, 20);
+    panel.add(bookedByLabel);
 
+    Border defaultBorder = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
+    Border hoverBorder = BorderFactory.createLineBorder(new Color(0, 120, 215), 2);
+    panel.setBorder(defaultBorder);
+
+    // If already booked, show info and disable
+    if (bookedBy != null && !bookedBy.trim().isEmpty()) {
+        bookedByLabel.setText("Booked by: " + bookedBy);
+        panel.setBackground(new Color(240, 240, 240));
+        panel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        panel.setEnabled(false);
+        return panel;
+    }
+
+    // Allow booking
     panel.addMouseListener(new java.awt.event.MouseAdapter() {
         @Override
         public void mouseClicked(java.awt.event.MouseEvent evt) {
-            System.out.println("Hi! Panel clicked for vehicle: " + vehicleName);
+            try {
+                int price = Integer.parseInt(pricePerDay.trim());
+                String currentUsername = username; // logged-in user
+
+                if (ownerUsername.equalsIgnoreCase(currentUsername)) {
+                    JOptionPane.showMessageDialog(null, "You cannot book your own vehicle!");
+                    return;
+                }
+
+                int confirm = JOptionPane.showConfirmDialog(null,
+                        "Do you want to book this vehicle for Rs " + price + "?",
+                        "Confirm Booking", JOptionPane.YES_NO_OPTION);
+
+                if (confirm == JOptionPane.YES_OPTION) {
+                    Connection con = DB.getConnection();
+
+                    // Check balance of current user
+                    PreparedStatement ps = con.prepareStatement("SELECT balance FROM customer WHERE username = ?");
+                    ps.setString(1, currentUsername);
+                    ResultSet rs = ps.executeQuery();
+
+                    if (rs.next()) {
+                        int balance = rs.getInt("balance");
+
+                        if (balance < price) {
+                            JOptionPane.showMessageDialog(null, "Not enough balance to book this vehicle!");
+                            rs.close();
+                            ps.close();
+                            con.close();
+                            return;
+                        }
+
+                        int remaining = balance - price;
+
+                        // Deduct balance from current user
+                        PreparedStatement updateBalance = con.prepareStatement(
+                                "UPDATE customer SET balance = ? WHERE username = ?");
+                        updateBalance.setInt(1, remaining);
+                        updateBalance.setString(2, currentUsername);
+                        updateBalance.executeUpdate();
+
+                        // Credit the owner
+                        PreparedStatement creditOwner = con.prepareStatement(
+                                "UPDATE customer SET balance = balance + ? WHERE username = ?");
+                        creditOwner.setInt(1, price);
+                        creditOwner.setString(2, ownerUsername);
+                        creditOwner.executeUpdate();
+                        creditOwner.close();
+
+                        // Mark booking as booked
+                        PreparedStatement markBooked = con.prepareStatement(
+                                "UPDATE bookings SET booked_by = ? WHERE brand = ? AND model = ?");
+                        String[] parts = vehicleName.split(" ", 2);
+                        String brand = parts.length > 0 ? parts[0] : "";
+                        String model = parts.length > 1 ? parts[1] : "";
+
+                        markBooked.setString(1, currentUsername);
+                        markBooked.setString(2, brand);
+                        markBooked.setString(3, model);
+                        markBooked.executeUpdate();
+
+                        JOptionPane.showMessageDialog(null, "Booking confirmed!\nRemaining Balance: Rs " + remaining);
+
+                        bookedByLabel.setText("Booked by: " + currentUsername);
+                        panel.setBackground(new Color(240, 240, 240));
+                        panel.setEnabled(false);
+
+                        rs.close();
+                        ps.close();
+                        updateBalance.close();
+                        markBooked.close();
+                        con.close();
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+            }
         }
+
         @Override
         public void mouseEntered(java.awt.event.MouseEvent evt) {
             panel.setBackground(new Color(245, 247, 250));
             panel.setBorder(hoverBorder);
             panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         }
+
         @Override
         public void mouseExited(java.awt.event.MouseEvent evt) {
             panel.setBackground(Color.WHITE);
@@ -200,7 +311,6 @@ private JPanel createBookingPanel(String vehicleName, byte[] vehicleImage,
         }
     });
 
-    panel.setBorder(defaultBorder);
     return panel;
 }
 
@@ -211,12 +321,13 @@ public void loadBookings() {
     scrollablepanel.removeAll();
 
     final int CARD_HEIGHT = 150;
-    final int GAP = 10; // spacing between cards
+    final int GAP = 10;
     int count = 0;
 
     try {
         Connection con = DB.getConnection();
-        String query = "SELECT username, brand, model, location, price_per_day, vehicle_image, created_at FROM bookings ORDER BY created_at DESC";
+
+        String query = "SELECT username, brand, model, location, price_per_day, vehicle_image, created_at, booked_by FROM bookings ORDER BY created_at DESC";
         PreparedStatement ps = con.prepareStatement(query);
         ResultSet rs = ps.executeQuery();
 
@@ -228,11 +339,11 @@ public void loadBookings() {
             String createdAt = rs.getString("created_at");
             String price = rs.getString("price_per_day");
             String owner = rs.getString("username");
+            String bookedBy = rs.getString("booked_by");
 
-            JPanel card = createBookingPanel(vehicleName, imageBytes, location, createdAt, price, owner);
+            JPanel card = createBookingPanel(vehicleName, imageBytes, location, createdAt, price, owner, bookedBy);
 
             scrollablepanel.add(card);
-            // small rigid gap so cards don't touch
             scrollablepanel.add(javax.swing.Box.createRigidArea(new Dimension(0, GAP)));
         }
 
@@ -243,22 +354,17 @@ public void loadBookings() {
         e.printStackTrace();
     }
 
-    // Force the scrollablepanel preferred size to the total height required
-    int totalHeight = Math.max(1, count) * (CARD_HEIGHT + GAP) + 20; // +padding
+    int totalHeight = Math.max(1, count) * (CARD_HEIGHT + GAP) + 20;
     int width = jScrollPane1.getViewport().getWidth();
-    if (width <= 0) {
-        // viewport might not be visible yet — use a safe fallback
-        width = 1000;
-    }
-    scrollablepanel.setPreferredSize(new Dimension(width, totalHeight));
+    if (width <= 0) width = 1000;
 
-    // refresh UI
+    scrollablepanel.setPreferredSize(new Dimension(width, totalHeight));
     scrollablepanel.revalidate();
     scrollablepanel.repaint();
 
-    // debug: print calculated height
     System.out.println("loadBookings -> cards: " + count + " totalHeight: " + totalHeight + " viewportH: " + jScrollPane1.getViewport().getHeight());
 }
+
 
 
 
@@ -280,6 +386,11 @@ public void loadBookings() {
         homee = new javax.swing.JLabel();
         renter = new javax.swing.JLabel();
         pfp = new javax.swing.JLabel();
+        yourRentals = new javax.swing.JLabel();
+        load_balance = new javax.swing.JLabel();
+        blc = new javax.swing.JLabel();
+        Balance = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
         book = new ImageScalerP("C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\whitebg.jpg");
         pickuploc = new RoundedPanel(25);
         pickuplocation = new javax.swing.JTextField();
@@ -334,6 +445,38 @@ public void loadBookings() {
             }
         });
 
+        yourRentals.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        yourRentals.setText("Your Rentals");
+        yourRentals.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        yourRentals.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                yourRentalsMouseClicked(evt);
+            }
+        });
+
+        load_balance.setForeground(new java.awt.Color(0, 204, 255));
+        load_balance.setText("Load Balance");
+        load_balance.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        load_balance.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                load_balanceMouseClicked(evt);
+            }
+        });
+
+        blc.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        blc.setText("Balance:");
+
+        Balance.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
+
+        jLabel8.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        jLabel8.setText("Bookings");
+        jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout whitepanelLayout = new javax.swing.GroupLayout(whitepanel);
         whitepanel.setLayout(whitepanelLayout);
         whitepanelLayout.setHorizontalGroup(
@@ -346,12 +489,27 @@ public void loadBookings() {
                     .addGroup(whitepanelLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel2))
-                    .addComponent(jLabel1))
-                .addGap(418, 418, 418)
-                .addComponent(homee)
-                .addGap(206, 206, 206)
-                .addComponent(renter)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(whitepanelLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(85, 85, 85)
+                        .addComponent(homee)
+                        .addGap(49, 49, 49)
+                        .addComponent(blc)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(whitepanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(whitepanelLayout.createSequentialGroup()
+                        .addComponent(Balance, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel8)
+                        .addGap(68, 68, 68)
+                        .addComponent(yourRentals)
+                        .addGap(45, 45, 45)
+                        .addComponent(renter)
+                        .addGap(80, 80, 80))
+                    .addGroup(whitepanelLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(load_balance)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(pfp, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
         );
@@ -365,14 +523,21 @@ public void loadBookings() {
                         .addComponent(pfp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, whitepanelLayout.createSequentialGroup()
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(24, 24, 24))
             .addGroup(whitepanelLayout.createSequentialGroup()
-                .addGap(9, 9, 9)
-                .addGroup(whitepanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(homee, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(renter))
+                .addGap(12, 12, 12)
+                .addGroup(whitepanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Balance, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(whitepanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(renter)
+                        .addComponent(yourRentals)
+                        .addComponent(homee, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(blc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel8)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(load_balance)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -650,14 +815,71 @@ public void loadBookings() {
     }//GEN-LAST:event_renterMouseClicked
 
     private void homeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeeMouseClicked
-        this.dispose();
-        new Customer_DashBoard_Logged().setVisible(true);
+        loadBookings();
     }//GEN-LAST:event_homeeMouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        this.dispose();
-        new Customer_DashBoard_Logged().setVisible(true);
+        loadBookings();
     }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void yourRentalsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_yourRentalsMouseClicked
+    Own_Rentals rentals = new Own_Rentals(this.username);
+    rentals.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_yourRentalsMouseClicked
+
+    private void load_balanceMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_load_balanceMouseClicked
+        try {
+        // Ask user how much they want to load
+        String input = JOptionPane.showInputDialog(this, "Enter amount to load:", "Load Balance", JOptionPane.PLAIN_MESSAGE);
+        
+        if (input != null && !input.trim().isEmpty()) {
+            int amountToAdd = Integer.parseInt(input.trim());
+            
+            if (amountToAdd <= 0) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid amount!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Update balance in database
+            Connection con = DB.getConnection();
+            String updateQuery = "UPDATE customer SET balance = balance + ? WHERE username = ?";
+            PreparedStatement ps = con.prepareStatement(updateQuery);
+            ps.setInt(1, amountToAdd);
+            ps.setString(2, username);
+            ps.executeUpdate();
+
+            ps.close();
+
+            // Fetch updated balance
+            String fetchQuery = "SELECT balance FROM customer WHERE username = ?";
+            ps = con.prepareStatement(fetchQuery);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int newBalance = rs.getInt("balance");
+                Balance.setText("Rs " + newBalance);
+                JOptionPane.showMessageDialog(this, "Balance successfully updated!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            rs.close();
+            ps.close();
+            con.close();
+        }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "Please enter a valid number!", "Error", JOptionPane.ERROR_MESSAGE);
+    } catch (Exception e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Error updating balance: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_load_balanceMouseClicked
+
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        your_bookings rentals = new your_bookings(this.username);
+    rentals.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_jLabel8MouseClicked
     
     /**
      * @param args the command line arguments
@@ -686,7 +908,9 @@ public void loadBookings() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Balance;
     private javax.swing.JLabel RR_logo;
+    private javax.swing.JLabel blc;
     private javax.swing.JPanel book;
     private javax.swing.JPanel bottom;
     private javax.swing.JTextField dateField1;
@@ -701,8 +925,10 @@ public void loadBookings() {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel load_balance;
     private javax.swing.JLabel pfp;
     private javax.swing.JPanel pickupdate;
     private javax.swing.JPanel pickuploc;
@@ -710,5 +936,6 @@ public void loadBookings() {
     private javax.swing.JLabel renter;
     private javax.swing.JPanel scrollablepanel;
     private javax.swing.JPanel whitepanel;
+    private javax.swing.JLabel yourRentals;
     // End of variables declaration//GEN-END:variables
 }
