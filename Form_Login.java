@@ -364,7 +364,7 @@ public class Form_Login extends javax.swing.JFrame {
 
             if(inputCode != null && inputCode.equals(storedCode)) {
                 CustomPopup.showInfo(this, "Login Successful!", "Success");
-                new Admin_DashBoard().setVisible(true);
+                new Admin_Dash().setVisible(true);
                 this.dispose();
             } else {
                 CustomPopup.showError(this, "Incorrect admin code! Access denied.", "Error");
