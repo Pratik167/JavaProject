@@ -42,13 +42,16 @@ public Primary_Screen_Logged(String loggedInUsername) {
     this.username = loggedInUsername; // store for later use
     initComponents();
     
-    ImageScaler.setScaledImage(RR_logo, "C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\RR logo.png");
-    ImageScaler.setScaledImage(CarLogo, "C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\lincoln navigator.png");
-    ImageScaler.setScaledImage(Calendar,"C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\calendar.png" );
-    ImageScaler.setScaledImage(calendar2,"C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\calendar.png" );
-    ImageScaler.setScaledImage(pickuplogo,"C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\location.png" );
-    ImageScaler.setScaledImage(DropOfflogo,"C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\location.png" );
-
+    ImageScaler.setScaledImage(RR_logo, "C:\\Users\\97798\\Desktop\\ProjectImages\\RR logo.png");
+    ImageScaler.setScaledImage(CarLogo, "C:\\Users\\97798\\Desktop\\ProjectImages\\lincoln navigator.png");
+    ImageScaler.setScaledImage(Calendar,"C:\\Users\\97798\\Desktop\\ProjectImages\\calendar.png" );
+    ImageScaler.setScaledImage(calendar2,"C:\\Users\\97798\\Desktop\\ProjectImages\\calendar.png" );
+    ImageScaler.setScaledImage(pickuplogo,"C:\\Users\\97798\\Desktop\\ProjectImages\\location.png" );
+    ImageScaler.setScaledImage(DropOfflogo,"C:\\Users\\97798\\Desktop\\ProjectImages\\location.png" );
+    pickuplocation.addItem("Select PickUp Location");
+    dropofflocation.addItem("Select DropOff Location");
+    
+    loadLocations();
     setProfilePictureFromCustomer(); // fetch picture directly from customer table
 }
 public void setProfilePictureFromCustomer() {
@@ -93,18 +96,18 @@ public void setProfilePictureFromCustomer() {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        bottom = new ImageScalerP("C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\dune.jpg");
+        bottom = new ImageScalerP("C:\\Users\\97798\\Desktop\\ProjectImages\\dune.jpg");
         jLabel4 = new javax.swing.JLabel();
         CarLogo = new javax.swing.JLabel();
-        whitepanel = new ImageScalerP("C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\whitebg.jpg");
+        whitepanel = new ImageScalerP("C:\\Users\\97798\\Desktop\\ProjectImages\\whitebg.jpg");
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         RR_logo = new javax.swing.JLabel();
         homee = new javax.swing.JLabel();
         pfp = new javax.swing.JLabel();
         renter = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        your_bookings = new javax.swing.JLabel();
+        your_rentals = new javax.swing.JLabel();
         book = new javax.swing.JPanel();
         pickup = new RoundedPanel(25);
         dateField1 = new RoundedTextField(25);
@@ -114,11 +117,11 @@ public void setProfilePictureFromCustomer() {
         dateField2 = new RoundedTextField(25);
         BOOKnow = new Rent_Rover.CoolButton("BOOK NOW");
         jPanel1 = new javax.swing.JPanel();
-        pickuplocation = new RoundedTextField(10);
         pickuplogo = new javax.swing.JLabel();
+        pickuplocation = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         DropOfflogo = new javax.swing.JLabel();
-        dropofflocation = new RoundedTextField(10);
+        dropofflocation = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -163,21 +166,21 @@ public void setProfilePictureFromCustomer() {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jLabel3.setText("Bookings");
-        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel3.addMouseListener(new java.awt.event.MouseAdapter() {
+        your_bookings.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        your_bookings.setText("Your Bookings");
+        your_bookings.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        your_bookings.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel3MouseClicked(evt);
+                your_bookingsMouseClicked(evt);
             }
         });
 
-        jLabel5.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jLabel5.setText("Your Rentals");
-        jLabel5.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+        your_rentals.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        your_rentals.setText("Your Rentals");
+        your_rentals.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        your_rentals.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel5MouseClicked(evt);
+                your_rentalsMouseClicked(evt);
             }
         });
 
@@ -194,12 +197,12 @@ public void setProfilePictureFromCustomer() {
                     .addGroup(whitepanelLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jLabel2)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 278, Short.MAX_VALUE)
                 .addComponent(homee)
                 .addGap(116, 116, 116)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(79, 79, 79)
-                .addComponent(jLabel5)
+                .addComponent(your_bookings, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(46, 46, 46)
+                .addComponent(your_rentals)
                 .addGap(110, 110, 110)
                 .addComponent(renter)
                 .addGap(86, 86, 86)
@@ -213,8 +216,8 @@ public void setProfilePictureFromCustomer() {
                 .addGroup(whitepanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(homee)
                     .addComponent(renter)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(your_bookings, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(your_rentals, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, whitepanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -297,17 +300,6 @@ public void setProfilePictureFromCustomer() {
 
         jPanel1.setOpaque(false);
 
-        pickuplocation.setFont(new java.awt.Font("Perpetua", 0, 18)); // NOI18N
-        pickuplocation.setText("PickUp Location");
-        pickuplocation.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                pickuplocationFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                pickuplocationFocusLost(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -315,32 +307,21 @@ public void setProfilePictureFromCustomer() {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pickuplogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(pickuplocation, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(pickuplocation, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pickuplocation, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pickuplogo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pickuplocation)
+                    .addComponent(pickuplogo, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         jPanel2.setOpaque(false);
-
-        dropofflocation.setFont(new java.awt.Font("Perpetua", 0, 18)); // NOI18N
-        dropofflocation.setText("DropOff Location");
-        dropofflocation.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                dropofflocationFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                dropofflocationFocusLost(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -349,8 +330,8 @@ public void setProfilePictureFromCustomer() {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(DropOfflogo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(dropofflocation, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(dropofflocation, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -358,8 +339,8 @@ public void setProfilePictureFromCustomer() {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(DropOfflogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(dropofflocation, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
+                    .addComponent(dropofflocation)
+                    .addComponent(DropOfflogo, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -495,37 +476,36 @@ public void setProfilePictureFromCustomer() {
 
     dialog.setVisible(true);
     }//GEN-LAST:event_dateField2MouseClicked
+    private void loadLocations() {
+    try (Connection conn = DB.getConnection();
+         PreparedStatement ps = conn.prepareStatement("SELECT DISTINCT location FROM bookings");
+         ResultSet rs = ps.executeQuery()) {
 
-    private void pickuplocationFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pickuplocationFocusGained
-         if (pickuplocation.getText().trim().equalsIgnoreCase("PickUp Location")) {
-            pickuplocation.setText("");
+        while (rs.next()) {
+            String loc = rs.getString("location");
+            pickuplocation.addItem(loc);
+            dropofflocation.addItem(loc);
         }
-    }//GEN-LAST:event_pickuplocationFocusGained
 
-    private void pickuplocationFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pickuplocationFocusLost
-        if (pickuplocation.getText().trim().isEmpty()) {
-            pickuplocation.setText("PickUp Location");
-        }
-    }//GEN-LAST:event_pickuplocationFocusLost
-
-    private void dropofflocationFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dropofflocationFocusGained
-        if (dropofflocation.getText().trim().equalsIgnoreCase("DropOff Location")) {
-            dropofflocation.setText("");
-        }
-    }//GEN-LAST:event_dropofflocationFocusGained
-
-    private void dropofflocationFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dropofflocationFocusLost
-        if (dropofflocation.getText().trim().isEmpty()) {
-            dropofflocation.setText("DropOff Location");
-        }
-    }//GEN-LAST:event_dropofflocationFocusLost
+    } catch (SQLException e) {
+        e.printStackTrace();
+        StylishPopup.showError(this, "Failed to load locations: " + e.getMessage());
+    }
+}
 
     private void BOOKnowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOOKnowActionPerformed
                                                
     try {
         // Get values from fields
-        String pickup = pickuplocation.getText().trim();
-        String dropoff = dropofflocation.getText().trim();
+        String pickup = (String) pickuplocation.getSelectedItem();
+        String dropoff = (String) dropofflocation.getSelectedItem();
+
+// Validation
+if (pickup.equals("Select PickUp Location") || dropoff.equals("Select DropOff Location")) {
+    StylishPopup.showError(this, "Please select both pickup and dropoff locations!");
+    return;
+}
+
         String pickupDate = dateField1.getText().trim(); 
         String dropoffDate = dateField2.getText().trim();
 
@@ -595,17 +575,17 @@ public void setProfilePictureFromCustomer() {
     }
     }//GEN-LAST:event_renterMouseClicked
 
-    private void jLabel3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel3MouseClicked
+    private void your_bookingsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_your_bookingsMouseClicked
         your_bookings rentals = new your_bookings(this.username);
     rentals.setVisible(true);
     this.dispose();
-    }//GEN-LAST:event_jLabel3MouseClicked
+    }//GEN-LAST:event_your_bookingsMouseClicked
 
-    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+    private void your_rentalsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_your_rentalsMouseClicked
         Own_Rentals rentals = new Own_Rentals(this.username);
     rentals.setVisible(true);
     this.dispose();
-    }//GEN-LAST:event_jLabel5MouseClicked
+    }//GEN-LAST:event_your_rentalsMouseClicked
     
     /**
      * @param args the command line arguments
@@ -629,20 +609,20 @@ public void setProfilePictureFromCustomer() {
     private javax.swing.JTextField dateField1;
     private javax.swing.JTextField dateField2;
     private javax.swing.JPanel dropoff;
-    private javax.swing.JTextField dropofflocation;
+    private javax.swing.JComboBox<String> dropofflocation;
     private javax.swing.JLabel homee;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel pfp;
     private javax.swing.JPanel pickup;
-    private javax.swing.JTextField pickuplocation;
+    private javax.swing.JComboBox<String> pickuplocation;
     private javax.swing.JLabel pickuplogo;
     private javax.swing.JLabel renter;
     private javax.swing.JPanel whitepanel;
+    private javax.swing.JLabel your_bookings;
+    private javax.swing.JLabel your_rentals;
     // End of variables declaration//GEN-END:variables
 }

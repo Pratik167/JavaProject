@@ -118,7 +118,7 @@ public Customer_DashBoard_Logged(String username) {
 
     public Customer_DashBoard_Logged() {
         initComponents();
-        ImageScaler.setScaledImage(RR_logo, "C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\RR logo.png");
+        ImageScaler.setScaledImage(RR_logo, "C:\\Users\\97798\\Desktop\\ProjectImages\\RR logo.png");
         scrollablepanel.setLayout(new BoxLayout(scrollablepanel, BoxLayout.Y_AXIS));
         scrollablepanel.setBackground(Color.WHITE);
 
@@ -267,14 +267,21 @@ private JPanel createBookingPanel(String vehicleName, byte[] vehicleImage,
 
                         // Mark booking as booked
                         PreparedStatement markBooked = con.prepareStatement(
-                                "UPDATE bookings SET booked_by = ? WHERE brand = ? AND model = ?");
+    "UPDATE bookings SET booked_by = ?, pickup_location = ?, dropoff_location = ?, pickup_date = ?, return_date = ? " +
+    "WHERE brand = ? AND model = ?"
+);
+                        markBooked.setString(1, currentUsername); // booked_by
+                        markBooked.setString(2, pickuplocation.getText().trim()); // pickup_location
+                        markBooked.setString(3, dropofflocation.getText().trim()); // dropoff_location
+                        markBooked.setString(4, dateField1.getText().trim()); // pickup_date
+                        markBooked.setString(5, dateField2.getText().trim()); // return_date
                         String[] parts = vehicleName.split(" ", 2);
                         String brand = parts.length > 0 ? parts[0] : "";
                         String model = parts.length > 1 ? parts[1] : "";
 
-                        markBooked.setString(1, currentUsername);
-                        markBooked.setString(2, brand);
-                        markBooked.setString(3, model);
+                        
+                        markBooked.setString(6, brand);
+                        markBooked.setString(7, model);
                         markBooked.executeUpdate();
 
                         JOptionPane.showMessageDialog(null, "Booking confirmed!\nRemaining Balance: Rs " + remaining);
@@ -379,7 +386,7 @@ public void loadBookings() {
     private void initComponents() {
 
         bottom = new javax.swing.JPanel();
-        whitepanel = new ImageScalerP("C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\whitebg.jpg");
+        whitepanel = new ImageScalerP("C:\\Users\\97798\\Desktop\\ProjectImages\\whitebg.jpg");
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         RR_logo = new javax.swing.JLabel();
@@ -390,8 +397,8 @@ public void loadBookings() {
         load_balance = new javax.swing.JLabel();
         blc = new javax.swing.JLabel();
         Balance = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        book = new ImageScalerP("C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\whitebg.jpg");
+        your_bookings = new javax.swing.JLabel();
+        book = new ImageScalerP("C:\\Users\\97798\\Desktop\\ProjectImages\\whitebg.jpg");
         pickuploc = new RoundedPanel(25);
         pickuplocation = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -468,12 +475,12 @@ public void loadBookings() {
 
         Balance.setFont(new java.awt.Font("SansSerif", 1, 14)); // NOI18N
 
-        jLabel8.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
-        jLabel8.setText("Bookings");
-        jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+        your_bookings.setFont(new java.awt.Font("SansSerif", 1, 18)); // NOI18N
+        your_bookings.setText("Your Bookings");
+        your_bookings.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        your_bookings.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel8MouseClicked(evt);
+                your_bookingsMouseClicked(evt);
             }
         });
 
@@ -499,9 +506,9 @@ public void loadBookings() {
                 .addGroup(whitepanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(whitepanelLayout.createSequentialGroup()
                         .addComponent(Balance, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel8)
-                        .addGap(68, 68, 68)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(your_bookings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(46, 46, 46)
                         .addComponent(yourRentals)
                         .addGap(45, 45, 45)
                         .addComponent(renter)
@@ -535,7 +542,7 @@ public void loadBookings() {
                         .addComponent(yourRentals)
                         .addComponent(homee, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(blc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jLabel8)))
+                        .addComponent(your_bookings)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(load_balance)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -875,11 +882,11 @@ public void loadBookings() {
     }
     }//GEN-LAST:event_load_balanceMouseClicked
 
-    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+    private void your_bookingsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_your_bookingsMouseClicked
         your_bookings rentals = new your_bookings(this.username);
     rentals.setVisible(true);
     this.dispose();
-    }//GEN-LAST:event_jLabel8MouseClicked
+    }//GEN-LAST:event_your_bookingsMouseClicked
     
     /**
      * @param args the command line arguments
@@ -925,7 +932,6 @@ public void loadBookings() {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel load_balance;
@@ -937,5 +943,6 @@ public void loadBookings() {
     private javax.swing.JPanel scrollablepanel;
     private javax.swing.JPanel whitepanel;
     private javax.swing.JLabel yourRentals;
+    private javax.swing.JLabel your_bookings;
     // End of variables declaration//GEN-END:variables
 }

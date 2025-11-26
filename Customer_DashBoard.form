@@ -77,7 +77,7 @@
       <SubComponents>
         <Container class="javax.swing.JPanel" name="whitepanel">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ImageScalerP(&quot;C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\whitebg.jpg&quot;)"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ImageScalerP(&quot;C:\\Users\\97798\\Desktop\\ProjectImages\\whitebg.jpg&quot;)"/>
           </AuxValues>
 
           <Layout>
@@ -154,6 +154,7 @@
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel1MouseClicked"/>
+                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabel1MouseEntered"/>
               </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="RR_logo">
@@ -234,7 +235,7 @@
             <Property name="opaque" type="boolean" value="false"/>
           </Properties>
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ImageScalerP(&quot;C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\whitebg.jpg&quot;)"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ImageScalerP(&quot;C:\\Users\\97798\\Desktop\\ProjectImages\\whitebg.jpg&quot;)"/>
           </AuxValues>
 
           <Layout>

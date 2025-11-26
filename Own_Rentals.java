@@ -102,7 +102,7 @@ loadBookings();
 
     public Own_Rentals() {
         initComponents();
-        ImageScaler.setScaledImage(RR_logo, "C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\RR logo.png");
+        ImageScaler.setScaledImage(RR_logo, "C:\\Users\\97798\\Desktop\\ProjectImages\\RR logo.png");
         scrollablepanel.setLayout(new BoxLayout(scrollablepanel, BoxLayout.Y_AXIS));
         scrollablepanel.setBackground(Color.WHITE);
 
@@ -253,7 +253,7 @@ public void loadBookings() {
     private void initComponents() {
 
         bottom = new javax.swing.JPanel();
-        whitepanel = new ImageScalerP("C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\whitebg.jpg");
+        whitepanel = new ImageScalerP("C:\\Users\\97798\\Desktop\\ProjectImages\\whitebg.jpg");
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         RR_logo = new javax.swing.JLabel();
@@ -315,7 +315,7 @@ public void loadBookings() {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(whitepanelLayout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 429, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(homee)
                         .addGap(306, 306, 306)))
                 .addComponent(renter)

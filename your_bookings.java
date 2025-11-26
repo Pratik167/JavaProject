@@ -96,7 +96,7 @@ loadBookings();
 
     public your_bookings() {
         initComponents();
-        ImageScaler.setScaledImage(RR_logo, "C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\RR logo.png");
+        ImageScaler.setScaledImage(RR_logo, "C:\\Users\\97798\\Desktop\\ProjectImages\\RR logo.png");
         scrollablepanel.setLayout(new BoxLayout(scrollablepanel, BoxLayout.Y_AXIS));
         scrollablepanel.setBackground(Color.WHITE);
 
@@ -118,9 +118,11 @@ loadBookings();
 private JPanel createBookingPanel(String vehicleName, byte[] vehicleImage,
                                   String location, String createdAt,
                                   String pricePerDay, String ownerUsername,
-                                  String bookedBy) {
+                                  String bookedBy,
+                                  String pickupLocation, String dropoffLocation,
+                                  String pickupDate, String dropoffDate) {
 
-    final int CARD_HEIGHT = 150;
+    final int CARD_HEIGHT = 220; // increased height
     final int CARD_WIDTH = 1000;
 
     JPanel panel = new JPanel(null);
@@ -163,70 +165,103 @@ private JPanel createBookingPanel(String vehicleName, byte[] vehicleImage,
     locPrice.setBounds(150, 65, 600, 20);
     panel.add(locPrice);
 
+    // Pickup and Dropoff details
+    JLabel pickupLabel = new JLabel("Pickup: " + pickupLocation + " on " + pickupDate);
+    pickupLabel.setFont(new Font("SansSerif", Font.PLAIN, 13));
+    pickupLabel.setBounds(150, 90, 400, 20);
+    panel.add(pickupLabel);
+
+    JLabel dropoffLabel = new JLabel("Dropoff: " + dropoffLocation + " on " + dropoffDate);
+    dropoffLabel.setFont(new Font("SansSerif", Font.PLAIN, 13));
+    dropoffLabel.setBounds(150, 115, 400, 20);
+    panel.add(dropoffLabel);
+
     // Created at
     JLabel dateLabel = new JLabel("Listed On: " + createdAt);
     dateLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
     dateLabel.setForeground(Color.GRAY);
-    dateLabel.setBounds(150, 95, 400, 18);
+    dateLabel.setBounds(150, 140, 400, 18);
     panel.add(dateLabel);
 
     // Booking status label
     JLabel bookedByLabel = new JLabel();
     bookedByLabel.setFont(new Font("SansSerif", Font.BOLD, 13));
     bookedByLabel.setForeground(Color.BLUE);
-    bookedByLabel.setBounds(150, 115, 400, 20);
+    bookedByLabel.setBounds(150, 165, 400, 20);
     panel.add(bookedByLabel);
     bookedByLabel.setText(bookedBy != null && !bookedBy.isEmpty() ? "Booked by: " + bookedBy : "");
 
     // QR Code button
-    JButton qrBtn = new JButton("Show QR");
-    qrBtn.setBounds(650, 115, 100, 25);
-    panel.add(qrBtn);
+JButton qrBtn = new JButton("Show QR");
+qrBtn.setBounds(650, 115, 100, 25);
+panel.add(qrBtn);
 
-    qrBtn.addActionListener(e -> {
-        try {
-            JPanel receiptPanel = new JPanel() {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    g.setFont(new Font("Arial", Font.BOLD, 16));
-                    g.drawString("Car Booking Info", 80, 30);
+qrBtn.addActionListener(e -> {
+    try {
+        JPanel receiptPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.setFont(new Font("Arial", Font.BOLD, 16));
+                g.drawString("Car Booking Info", 80, 30);
 
-                    g.setFont(new Font("Arial", Font.PLAIN, 14));
-                    g.drawString("Vehicle: " + vehicleName, 20, 70);
-                    g.drawString("Owner: " + ownerUsername, 20, 100);
-                    g.drawString("Location: " + location, 20, 130);
-                    g.drawString("Price/day: Rs " + pricePerDay, 20, 160);
+                g.setFont(new Font("Arial", Font.PLAIN, 14));
+                int y = 70; // starting y for text
+                int textHeight = 0;
 
-                    if (vehicleImage != null && vehicleImage.length > 0) {
-                        try {
-                            BufferedImage img = ImageIO.read(new ByteArrayInputStream(vehicleImage));
-                            g.drawImage(img, 200, 60, 120, 90, null);
-                        } catch (Exception ex) { ex.printStackTrace(); }
-                    }
-                }
-            };
-            receiptPanel.setPreferredSize(new Dimension(350, 250));
-            receiptPanel.setSize(350, 250);
+                g.drawString("Vehicle: " + vehicleName, 20, y); textHeight += 30; y += 30;
+                g.drawString("Owner: " + ownerUsername, 20, y); textHeight += 30; y += 30;
+                g.drawString("Pickup Location: " + pickupLocation, 20, y); textHeight += 25; y += 25;
+                g.drawString("Dropoff Location: " + dropoffLocation, 20, y); textHeight += 25; y += 25;
+                g.drawString("Pickup Date: " + pickupDate, 20, y); textHeight += 25; y += 25;
+                g.drawString("Dropoff Date: " + dropoffDate, 20, y); textHeight += 25; y += 25;
+                g.drawString("Location: " + location, 20, y); textHeight += 30; y += 30;
+                g.drawString("Price/day: Rs " + pricePerDay, 20, y); textHeight += 30;
 
-            String tempFile = "tempBooking.png";
-            savePanelAsImage(receiptPanel, tempFile);
+                // Vehicle image
+                if (vehicleImage != null && vehicleImage.length > 0) {
+    try {
+        BufferedImage img = ImageIO.read(new ByteArrayInputStream(vehicleImage));
+        int imgWidth = 160;  // larger image
+        int imgHeight = 120;
 
-            String imageUrl = uploadImage(tempFile);
-            if (imageUrl.equals("ERROR")) {
-                JOptionPane.showMessageDialog(null, "Failed to upload image for QR");
-                return;
+        // Vertical center relative to text block
+        int textTop = 70;
+        int textBottom = textTop + textHeight;
+        int imgY = textTop + (textBottom - textTop - imgHeight) / 2;
+
+        int imgX = this.getWidth() - imgWidth - 20; // use 'this' instead of receiptPanel
+        g.drawImage(img, imgX, imgY, imgWidth, imgHeight, null);
+    } catch (Exception ex) { ex.printStackTrace(); }
+}
+
             }
+        };
 
-            String qrFile = "bookingQR.png";
-            generateQRCode(imageUrl, qrFile);
-            showImage(qrFile, "Scan QR to view booking image");
+        // Adjust panel size to fit everything
+        receiptPanel.setPreferredSize(new Dimension(500, 380));
+        receiptPanel.setSize(500, 380);
 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Error generating QR: " + ex.getMessage());
+        String tempFile = "tempBooking.png";
+        savePanelAsImage(receiptPanel, tempFile);
+
+        String imageUrl = uploadImage(tempFile);
+        if (imageUrl.equals("ERROR")) {
+            JOptionPane.showMessageDialog(null, "Failed to upload image for QR");
+            return;
         }
-    });
+
+        String qrFile = "bookingQR.png";
+        generateQRCode(imageUrl, qrFile);
+        showImage(qrFile, "Scan QR to view booking image");
+
+    } catch (Exception ex) {
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error generating QR: " + ex.getMessage());
+    }
+});
+
+
 
     // Cancel Booking button
     JButton cancelBtn = new JButton("Cancel Booking");
@@ -384,14 +419,21 @@ public void loadBookings() {
 
     try (Connection con = DB.getConnection()) {
         // Only select bookings made by the current user
-        String query = "SELECT brand, model, location, price_per_day, vehicle_image, created_at, booked_by, username AS owner " +
-                       "FROM bookings WHERE booked_by = ? ORDER BY created_at DESC";
+        String query = "SELECT brand, model, location, price_per_day, vehicle_image, created_at, booked_by, username AS owner, " +
+               "pickup_location, dropoff_location, pickup_date, return_date " +
+               "FROM bookings WHERE booked_by = ? ORDER BY created_at DESC";
+
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, username); // logged-in user's username
         ResultSet rs = ps.executeQuery();
 
         while (rs.next()) {
             count++;
+            String pickupLocation = rs.getString("pickup_location");
+            String dropoffLocation = rs.getString("dropoff_location");
+            String pickupDate = rs.getString("pickup_date");
+            String dropoffDate = rs.getString("return_date");
+
             String vehicleName = rs.getString("brand") + " " + rs.getString("model");
             byte[] imageBytes = rs.getBytes("vehicle_image");
             String location = rs.getString("location");
@@ -400,7 +442,9 @@ public void loadBookings() {
             String owner = rs.getString("owner");
             String bookedBy = rs.getString("booked_by");
 
-            JPanel card = createBookingPanel(vehicleName, imageBytes, location, createdAt, price, owner, bookedBy);
+            JPanel card = createBookingPanel(vehicleName, imageBytes, location, createdAt, price, owner, bookedBy,
+                                 pickupLocation, dropoffLocation, pickupDate, dropoffDate);
+
             scrollablepanel.add(card);
             scrollablepanel.add(Box.createRigidArea(new Dimension(0, GAP)));
         }
@@ -427,7 +471,7 @@ public void loadBookings() {
     private void initComponents() {
 
         bottom = new javax.swing.JPanel();
-        whitepanel = new ImageScalerP("C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\whitebg.jpg");
+        whitepanel = new ImageScalerP("C:\\Users\\97798\\Desktop\\ProjectImages\\whitebg.jpg");
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         RR_logo = new javax.swing.JLabel();

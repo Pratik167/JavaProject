@@ -72,7 +72,7 @@
       <SubComponents>
         <Container class="javax.swing.JPanel" name="whitepanel">
           <AuxValues>
-            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ImageScalerP(&quot;C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\whitebg.jpg&quot;)"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new ImageScalerP(&quot;C:\\Users\\97798\\Desktop\\ProjectImages\\whitebg.jpg&quot;)"/>
           </AuxValues>
 
           <Layout>
@@ -90,7 +90,7 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="429" max="32767" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Component id="homee" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="306" max="-2" attributes="0"/>
                           </Group>

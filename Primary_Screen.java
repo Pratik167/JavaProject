@@ -37,13 +37,16 @@ public class Primary_Screen extends javax.swing.JFrame {
      */
     public Primary_Screen() {
         initComponents();
-        ImageScaler.setScaledImage(RR_logo, "C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\RR logo.png");
-        ImageScaler.setScaledImage(CarLogo, "C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\lincoln navigator.png");
-        ImageScaler.setScaledImage(Calendar,"C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\calendar.png" );
-        ImageScaler.setScaledImage(calendar2,"C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\calendar.png" );
-        ImageScaler.setScaledImage(pickuplogo,"C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\location.png" );
-        ImageScaler.setScaledImage(DropOfflogo,"C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\location.png" );
-        
+        ImageScaler.setScaledImage(RR_logo, "C:\\Users\\97798\\Desktop\\ProjectImages\\RR logo.png");
+        ImageScaler.setScaledImage(CarLogo, "C:\\Users\\97798\\Desktop\\ProjectImages\\lincoln navigator.png");
+        ImageScaler.setScaledImage(Calendar,"C:\\Users\\97798\\Desktop\\ProjectImages\\calendar.png" );
+        ImageScaler.setScaledImage(calendar2,"C:\\Users\\97798\\Desktop\\ProjectImages\\calendar.png" );
+        ImageScaler.setScaledImage(pickuplogo,"C:\\Users\\97798\\Desktop\\ProjectImages\\location.png" );
+        ImageScaler.setScaledImage(DropOfflogo,"C:\\Users\\97798\\Desktop\\ProjectImages\\location.png" );
+        pickuplocation.addItem("Select PickUp Location");
+    dropofflocation.addItem("Select DropOff Location");
+    
+    loadLocations();
     }
 
     /**
@@ -55,14 +58,14 @@ public class Primary_Screen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        bottom = new ImageScalerP("C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\dune.jpg");
+        bottom = new ImageScalerP("C:\\Users\\97798\\Desktop\\ProjectImages\\dune.jpg");
         CarLogo = new javax.swing.JLabel();
-        whitepanel = new ImageScalerP("C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\whitebg.jpg");
+        whitepanel = new ImageScalerP("C:\\Users\\97798\\Desktop\\ProjectImages\\whitebg.jpg");
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         RR_logo = new javax.swing.JLabel();
         homee = new javax.swing.JLabel();
-        login_and_signup = new ImageScalerP("C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\whitebg.jpg");
+        login_and_signup = new ImageScalerP("C:\\Users\\97798\\Desktop\\ProjectImages\\whitebg.jpg");
         Login_button = new javax.swing.JButton();
         SignUp_button = new Rent_Rover.CoolButton("SignUP");
         BecomeArenter = new javax.swing.JLabel();
@@ -75,11 +78,11 @@ public class Primary_Screen extends javax.swing.JFrame {
         dateField2 = new RoundedTextField(25);
         BOOKnow = new Rent_Rover.CoolButton("BOOK NOW");
         jPanel1 = new javax.swing.JPanel();
-        pickuplocation = new RoundedTextField(10);
         pickuplogo = new javax.swing.JLabel();
+        pickuplocation = new javax.swing.JComboBox<>();
         jPanel2 = new javax.swing.JPanel();
         DropOfflogo = new javax.swing.JLabel();
-        dropofflocation = new RoundedTextField(10);
+        dropofflocation = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -280,17 +283,6 @@ public class Primary_Screen extends javax.swing.JFrame {
 
         jPanel1.setOpaque(false);
 
-        pickuplocation.setFont(new java.awt.Font("Perpetua", 0, 18)); // NOI18N
-        pickuplocation.setText("PickUp Location");
-        pickuplocation.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                pickuplocationFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                pickuplocationFocusLost(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -298,32 +290,23 @@ public class Primary_Screen extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(pickuplogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
-                .addComponent(pickuplocation, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pickuplocation, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(pickuplocation, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pickuplogo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(pickuplogo, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pickuplocation))
                 .addContainerGap())
         );
 
         jPanel2.setOpaque(false);
-
-        dropofflocation.setFont(new java.awt.Font("Perpetua", 0, 18)); // NOI18N
-        dropofflocation.setText("DropOff Location");
-        dropofflocation.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                dropofflocationFocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                dropofflocationFocusLost(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -332,8 +315,8 @@ public class Primary_Screen extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(DropOfflogo, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(dropofflocation, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(dropofflocation, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -341,8 +324,8 @@ public class Primary_Screen extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(DropOfflogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(dropofflocation, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE))
+                    .addComponent(DropOfflogo, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                    .addComponent(dropofflocation))
                 .addContainerGap())
         );
 
@@ -499,36 +482,34 @@ public class Primary_Screen extends javax.swing.JFrame {
 
     dialog.setVisible(true);
     }//GEN-LAST:event_dateField2MouseClicked
+private void loadLocations() {
+    try (Connection conn = DB.getConnection();
+         PreparedStatement ps = conn.prepareStatement("SELECT DISTINCT location FROM bookings");
+         ResultSet rs = ps.executeQuery()) {
 
-    private void pickuplocationFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pickuplocationFocusGained
-         if (pickuplocation.getText().trim().equalsIgnoreCase("PickUp Location")) {
-            pickuplocation.setText("");
+        while (rs.next()) {
+            String loc = rs.getString("location");
+            pickuplocation.addItem(loc);
+            dropofflocation.addItem(loc);
         }
-    }//GEN-LAST:event_pickuplocationFocusGained
 
-    private void pickuplocationFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_pickuplocationFocusLost
-        if (pickuplocation.getText().trim().isEmpty()) {
-            pickuplocation.setText("PickUp Location");
-        }
-    }//GEN-LAST:event_pickuplocationFocusLost
-
-    private void dropofflocationFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dropofflocationFocusGained
-        if (dropofflocation.getText().trim().equalsIgnoreCase("DropOff Location")) {
-            dropofflocation.setText("");
-        }
-    }//GEN-LAST:event_dropofflocationFocusGained
-
-    private void dropofflocationFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_dropofflocationFocusLost
-        if (dropofflocation.getText().trim().isEmpty()) {
-            dropofflocation.setText("DropOff Location");
-        }
-    }//GEN-LAST:event_dropofflocationFocusLost
-
+    } catch (SQLException e) {
+        e.printStackTrace();
+        StylishPopup.showError(this, "Failed to load locations: " + e.getMessage());
+    }
+}
     private void BOOKnowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BOOKnowActionPerformed
         try {
     // Get values from fields
-    String pickup = pickuplocation.getText().trim();
-    String dropoff = dropofflocation.getText().trim();
+    // Get values from fields
+        String pickup = (String) pickuplocation.getSelectedItem();
+        String dropoff = (String) dropofflocation.getSelectedItem();
+
+// Validation
+if (pickup.equals("Select PickUp Location") || dropoff.equals("Select DropOff Location")) {
+    StylishPopup.showError(this, "Please select both pickup and dropoff locations!");
+    return;
+}
     String pickupDate = dateField1.getText().trim(); 
     String dropoffDate = dateField2.getText().trim();
 
@@ -623,7 +604,7 @@ public class Primary_Screen extends javax.swing.JFrame {
     private javax.swing.JTextField dateField1;
     private javax.swing.JTextField dateField2;
     private javax.swing.JPanel dropoff;
-    private javax.swing.JTextField dropofflocation;
+    private javax.swing.JComboBox<String> dropofflocation;
     private javax.swing.JLabel homee;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -632,7 +613,7 @@ public class Primary_Screen extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel login_and_signup;
     private javax.swing.JPanel pickup;
-    private javax.swing.JTextField pickuplocation;
+    private javax.swing.JComboBox<String> pickuplocation;
     private javax.swing.JLabel pickuplogo;
     private javax.swing.JPanel whitepanel;
     // End of variables declaration//GEN-END:variables

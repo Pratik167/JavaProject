@@ -285,7 +285,7 @@ public class Form_Login extends javax.swing.JFrame {
         RRR.setBounds(140, 240, 160, 40);
 
         brandLogo.setBackground(new java.awt.Color(92, 165, 238));
-        brandLogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\logo.jpg")); // NOI18N
+        brandLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ProjectImages/logo.jpg"))); // NOI18N
         brandLogo.setOpaque(true);
         brandLogo.setPreferredSize(new java.awt.Dimension(1366, 768));
         jPanel3.add(brandLogo);

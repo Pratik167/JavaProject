@@ -52,6 +52,7 @@ public RenterDashBoard(String username) {
     initComponents();
     this.username = username; // save it for later use
     setProfilePicture(username); // optional: show profile pic
+    ImageScaler.setScaledImage(home, "C:\\Users\\97798\\Desktop\\ProjectImages\\icons8-home-48.png");
 }
 
 
@@ -115,6 +116,7 @@ public RenterDashBoard(String username) {
         pfield = new RoundedTextField(10);
         jLabel6 = new javax.swing.JLabel();
         select_vehicle = new javax.swing.JLabel();
+        home = new javax.swing.JLabel();
         brandLogo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -253,8 +255,17 @@ public RenterDashBoard(String username) {
         jPanel3.add(select_vehicle);
         select_vehicle.setBounds(900, 560, 250, 40);
 
+        home.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        home.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                homeMouseClicked(evt);
+            }
+        });
+        jPanel3.add(home);
+        home.setBounds(70, 40, 30, 30);
+
         brandLogo.setBackground(new java.awt.Color(92, 165, 238));
-        brandLogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\Untitled (Copy).png")); // NOI18N
+        brandLogo.setIcon(new javax.swing.ImageIcon("C:\\Users\\97798\\Desktop\\ProjectImages\\renterdashboard.png")); // NOI18N
         brandLogo.setOpaque(true);
         brandLogo.setPreferredSize(new java.awt.Dimension(1366, 768));
         jPanel3.add(brandLogo);
@@ -373,6 +384,12 @@ select_vehicle.addMouseListener(new java.awt.event.MouseAdapter() {
 
     }//GEN-LAST:event_select_vehicleMouseClicked
 
+    private void homeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeMouseClicked
+        Primary_Screen_Logged primary = new Primary_Screen_Logged(this.username);
+    primary.setVisible(true);
+    this.dispose();
+    }//GEN-LAST:event_homeMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -404,6 +421,7 @@ select_vehicle.addMouseListener(new java.awt.event.MouseAdapter() {
     private javax.swing.JLabel brand;
     private javax.swing.JLabel brandLogo;
     private javax.swing.JLabel carpfp;
+    private javax.swing.JLabel home;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

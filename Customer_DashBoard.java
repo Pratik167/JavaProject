@@ -34,6 +34,7 @@ import java.sql.SQLException;
 import java.util.Calendar;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
@@ -48,18 +49,28 @@ public class Customer_DashBoard extends javax.swing.JFrame {
      * Creates new form Primary_Screen
      */
     public Customer_DashBoard(String pickup, String dropoff, String pickupDate, String returnDate) {
-        initComponents(); // keep NetBeans auto-generated GUI
+    initComponents(); // keep NetBeans auto-generated GUI
 
-        // Now set the textfields with the values
-        pickuplocation.setText(pickup);
-        dropofflocation.setText(dropoff);
-        dateField1.setText(pickupDate);
-        dateField2.setText(returnDate);
-    }
+    // Set the textfields
+    pickuplocation.setText(pickup);
+    dropofflocation.setText(dropoff);
+    dateField1.setText(pickupDate);
+    dateField2.setText(returnDate);
+
+    // ✅ Set scrollable panel properly
+    scrollablepanel.setLayout(new BoxLayout(scrollablepanel, BoxLayout.Y_AXIS));
+    scrollablepanel.setBackground(Color.WHITE);
+    jScrollPane1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+    jScrollPane1.setViewportView(scrollablepanel);
+
+    // Load bookings
+    loadBookings();
+}
+
     public Customer_DashBoard() {
     initComponents();
 
-    ImageScaler.setScaledImage(RR_logo, "C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\RR logo.png");
+    ImageScaler.setScaledImage(RR_logo, "C:\\Users\\97798\\Desktop\\ProjectImages\\RR logo.png");
 
     // Force vertical stacking for cards
     // after initComponents()
@@ -77,15 +88,16 @@ loadBookings();
 // Updated createBookingPanel to include hover effect and full click functionality
 private JPanel createBookingPanel(String vehicleName, byte[] vehicleImage,
                                   String location, String createdAt,
-                                  String pricePerDay, String ownerUsername) {
+                                  String pricePerDay, String ownerUsername,
+                                  String bookedBy) { // no extra parameters
 
     final int CARD_HEIGHT = 150;
-    final int CARD_WIDTH = 1000; // fallback width; will be resized by BoxLayout/scrollpane
+    final int CARD_WIDTH = 1000;
 
     JPanel panel = new JPanel(null);
     panel.setPreferredSize(new Dimension(CARD_WIDTH, CARD_HEIGHT));
     panel.setMaximumSize(new Dimension(Integer.MAX_VALUE, CARD_HEIGHT));
-    panel.setAlignmentX(java.awt.Component.LEFT_ALIGNMENT);
+    panel.setAlignmentX(Component.LEFT_ALIGNMENT);
     panel.setBackground(Color.WHITE);
     panel.setBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY));
 
@@ -117,7 +129,7 @@ private JPanel createBookingPanel(String vehicleName, byte[] vehicleImage,
     panel.add(ownerLabel);
 
     // Location + price
-    JLabel locPrice = new JLabel("Location: " + location + "   |   Price/day: " + pricePerDay);
+    JLabel locPrice = new JLabel("Location: " + location + "   |   Price/day: Rs " + pricePerDay);
     locPrice.setFont(new Font("SansSerif", Font.PLAIN, 13));
     locPrice.setBounds(150, 65, 600, 20);
     panel.add(locPrice);
@@ -129,30 +141,28 @@ private JPanel createBookingPanel(String vehicleName, byte[] vehicleImage,
     dateLabel.setBounds(150, 95, 400, 18);
     panel.add(dateLabel);
 
-    // Make whole panel clickable + hover
+    // Booking status label
+    JLabel bookedByLabel = new JLabel();
+    bookedByLabel.setFont(new Font("SansSerif", Font.BOLD, 13));
+    bookedByLabel.setForeground(Color.BLUE);
+    bookedByLabel.setBounds(150, 115, 400, 20);
+    panel.add(bookedByLabel);
+
     Border defaultBorder = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
-    Border hoverBorder   = BorderFactory.createLineBorder(new Color(0,120,215), 2);
-
-    panel.addMouseListener(new java.awt.event.MouseAdapter() {
-        @Override
-        public void mouseClicked(java.awt.event.MouseEvent evt) {
-            System.out.println("Hi! Panel clicked for vehicle: " + vehicleName);
-        }
-        @Override
-        public void mouseEntered(java.awt.event.MouseEvent evt) {
-            panel.setBackground(new Color(245, 247, 250));
-            panel.setBorder(hoverBorder);
-            panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        }
-        @Override
-        public void mouseExited(java.awt.event.MouseEvent evt) {
-            panel.setBackground(Color.WHITE);
-            panel.setBorder(defaultBorder);
-            panel.setCursor(Cursor.getDefaultCursor());
-        }
-    });
-
+    Border hoverBorder = BorderFactory.createLineBorder(new Color(0, 120, 215), 2);
     panel.setBorder(defaultBorder);
+
+    // If already booked, show info and disable
+    if (bookedBy != null && !bookedBy.trim().isEmpty()) {
+        bookedByLabel.setText("Booked by: " + bookedBy);
+        panel.setBackground(new Color(240, 240, 240));
+        panel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        panel.setEnabled(false);
+        return panel;
+    }
+
+    
+
     return panel;
 }
 
@@ -163,12 +173,13 @@ public void loadBookings() {
     scrollablepanel.removeAll();
 
     final int CARD_HEIGHT = 150;
-    final int GAP = 10; // spacing between cards
+    final int GAP = 10;
     int count = 0;
 
     try {
         Connection con = DB.getConnection();
-        String query = "SELECT username, brand, model, location, price_per_day, vehicle_image, created_at FROM bookings ORDER BY created_at DESC";
+
+        String query = "SELECT username, brand, model, location, price_per_day, vehicle_image, created_at, booked_by FROM bookings ORDER BY created_at DESC";
         PreparedStatement ps = con.prepareStatement(query);
         ResultSet rs = ps.executeQuery();
 
@@ -180,11 +191,11 @@ public void loadBookings() {
             String createdAt = rs.getString("created_at");
             String price = rs.getString("price_per_day");
             String owner = rs.getString("username");
+            String bookedBy = rs.getString("booked_by");
 
-            JPanel card = createBookingPanel(vehicleName, imageBytes, location, createdAt, price, owner);
+            JPanel card = createBookingPanel(vehicleName, imageBytes, location, createdAt, price, owner, bookedBy);
 
             scrollablepanel.add(card);
-            // small rigid gap so cards don't touch
             scrollablepanel.add(javax.swing.Box.createRigidArea(new Dimension(0, GAP)));
         }
 
@@ -195,20 +206,14 @@ public void loadBookings() {
         e.printStackTrace();
     }
 
-    // Force the scrollablepanel preferred size to the total height required
-    int totalHeight = Math.max(1, count) * (CARD_HEIGHT + GAP) + 20; // +padding
+    int totalHeight = Math.max(1, count) * (CARD_HEIGHT + GAP) + 20;
     int width = jScrollPane1.getViewport().getWidth();
-    if (width <= 0) {
-        // viewport might not be visible yet — use a safe fallback
-        width = 1000;
-    }
-    scrollablepanel.setPreferredSize(new Dimension(width, totalHeight));
+    if (width <= 0) width = 1000;
 
-    // refresh UI
+    scrollablepanel.setPreferredSize(new Dimension(width, totalHeight));
     scrollablepanel.revalidate();
     scrollablepanel.repaint();
 
-    // debug: print calculated height
     System.out.println("loadBookings -> cards: " + count + " totalHeight: " + totalHeight + " viewportH: " + jScrollPane1.getViewport().getHeight());
 }
 
@@ -228,7 +233,7 @@ public void loadBookings() {
     private void initComponents() {
 
         bottom = new javax.swing.JPanel();
-        whitepanel = new ImageScalerP("C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\whitebg.jpg");
+        whitepanel = new ImageScalerP("C:\\Users\\97798\\Desktop\\ProjectImages\\whitebg.jpg");
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         RR_logo = new javax.swing.JLabel();
@@ -236,7 +241,7 @@ public void loadBookings() {
         SignUp_button = new Rent_Rover.CoolButton("SignUP");
         homee = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        book = new ImageScalerP("C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\whitebg.jpg");
+        book = new ImageScalerP("C:\\Users\\97798\\Desktop\\ProjectImages\\whitebg.jpg");
         pickuploc = new RoundedPanel(25);
         pickuplocation = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
@@ -267,6 +272,9 @@ public void loadBookings() {
         jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel1MouseEntered(evt);
             }
         });
 
@@ -594,13 +602,11 @@ public void loadBookings() {
     }//GEN-LAST:event_SignUp_buttonMouseClicked
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        this.dispose();
-       new Customer_DashBoard().setVisible(true);
+        loadBookings();
     }//GEN-LAST:event_jLabel1MouseClicked
 
     private void homeeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeeMouseClicked
-        this.dispose();
-        new Customer_DashBoard().setVisible(true);
+        loadBookings();
     }//GEN-LAST:event_homeeMouseClicked
 
     private void dateField2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dateField2MouseClicked
@@ -652,6 +658,10 @@ public void loadBookings() {
     CustomPopup.showError(this, "Please Login/SignUp to Rent Your Vehicle.", "Login");
                 return;
     }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void jLabel1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel1MouseEntered
     
     /**
      * @param args the command line arguments

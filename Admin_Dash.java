@@ -15,7 +15,7 @@ public class Admin_Dash extends JFrame {
     private JLabel carsLabel;
     private JLabel bookingsLabel;
     private JLabel RR_logo, RentRover, RRR, pfp, adminName, adminRole;
-    private JPanel bottomPanel, topPanel, profilePanel, logosPanel;
+    private JPanel bottomPanel, topPanel;
     private JScrollPane scrollPane;
 
     public Admin_Dash() {
@@ -36,7 +36,7 @@ public class Admin_Dash extends JFrame {
 
         // Bottom navigation panel
         bottomPanel = new JPanel();
-bottomPanel.setBackground(Color.WHITE);
+        bottomPanel.setBackground(Color.WHITE);
         bottomPanel.setPreferredSize(new Dimension(200, 0));
         bottomPanel.setLayout(new GridLayout(4, 1, 0, 20));
 
@@ -52,91 +52,84 @@ bottomPanel.setBackground(Color.WHITE);
 
         add(bottomPanel, BorderLayout.WEST);
 
-// -------- ADMIN PANEL --------
-JPanel adminPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
-adminPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-adminPanel.setBackground(Color.WHITE);
-adminPanel.setOpaque(true);
-adminPanel.setPreferredSize(new Dimension(180, 100)); // match RR panel height
+        // -------- ADMIN PANEL --------
+        JPanel adminPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        adminPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        adminPanel.setBackground(Color.WHITE);
+        adminPanel.setOpaque(true);
+        adminPanel.setPreferredSize(new Dimension(180, 100)); // match RR panel height
 
-JLabel pfp = new JLabel();
-ImageIcon profileImg = new ImageIcon("C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\gengar.png");
-Image imgProfile = profileImg.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
-pfp.setIcon(new ImageIcon(imgProfile));
+        JLabel pfp = new JLabel();
+        ImageIcon profileImg = new ImageIcon("C:\\Users\\97798\\Desktop\\ProjectImages\\gengar.png");
+        Image imgProfile = profileImg.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+        pfp.setIcon(new ImageIcon(imgProfile));
 
-// Text panel for admin name and role
-JPanel adminTextPanel = new JPanel();
-adminTextPanel.setLayout(new BoxLayout(adminTextPanel, BoxLayout.Y_AXIS));
-adminTextPanel.setOpaque(false);
+        // Text panel for admin name and role
+        JPanel adminTextPanel = new JPanel();
+        adminTextPanel.setLayout(new BoxLayout(adminTextPanel, BoxLayout.Y_AXIS));
+        adminTextPanel.setOpaque(false);
 
-JLabel adminName = new JLabel("John Cena");
-adminName.setFont(new Font("Perpetua", Font.BOLD, 16));
-adminName.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JLabel adminName = new JLabel("John Cena");
+        adminName.setFont(new Font("Perpetua", Font.BOLD, 16));
+        adminName.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-JLabel adminRole = new JLabel("ADMIN");
-adminRole.setFont(new Font("Perpetua", Font.BOLD, 14));
-adminRole.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JLabel adminRole = new JLabel("ADMIN");
+        adminRole.setFont(new Font("Perpetua", Font.BOLD, 14));
+        adminRole.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-adminTextPanel.add(adminName);
-adminTextPanel.add(Box.createVerticalStrut(3));
-adminTextPanel.add(adminRole);
+        adminTextPanel.add(adminName);
+        adminTextPanel.add(Box.createVerticalStrut(3));
+        adminTextPanel.add(adminRole);
 
-// Add logo and text panel to admin panel
-adminPanel.add(pfp);
-adminPanel.add(adminTextPanel);
+        // Add logo and text panel to admin panel
+        adminPanel.add(pfp);
+        adminPanel.add(adminTextPanel);
 
-// -------- RR PANEL (for reference, unchanged) --------
-JPanel rrPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
-rrPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-rrPanel.setBackground(Color.WHITE);
-rrPanel.setOpaque(true);
-rrPanel.setPreferredSize(new Dimension(250, 100));
+        // -------- RR PANEL --------
+        JPanel rrPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 10));
+        rrPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        rrPanel.setBackground(Color.WHITE);
+        rrPanel.setOpaque(true);
+        rrPanel.setPreferredSize(new Dimension(250, 100));
 
-JLabel RR_logo = new JLabel();
-ImageIcon logoImg = new ImageIcon("C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\RR logo.png");
-Image imgLogo = logoImg.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
-RR_logo.setIcon(new ImageIcon(imgLogo));
+        JLabel RR_logo = new JLabel();
+        ImageIcon logoImg = new ImageIcon("C:\\Users\\97798\\Desktop\\ProjectImages\\RR logo.png");
+        Image imgLogo = logoImg.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+        RR_logo.setIcon(new ImageIcon(imgLogo));
 
-JPanel rrTextPanel = new JPanel();
-rrTextPanel.setLayout(new BoxLayout(rrTextPanel, BoxLayout.Y_AXIS));
-rrTextPanel.setOpaque(false);
+        JPanel rrTextPanel = new JPanel();
+        rrTextPanel.setLayout(new BoxLayout(rrTextPanel, BoxLayout.Y_AXIS));
+        rrTextPanel.setOpaque(false);
 
-JLabel RentRover = new JLabel("RentRover");
-RentRover.setFont(new Font("Perpetua", Font.BOLD, 20));
-RentRover.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JLabel RentRover = new JLabel("RentRover");
+        RentRover.setFont(new Font("Perpetua", Font.BOLD, 20));
+        RentRover.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-JLabel RRR = new JLabel("Rent, Ride, Repeat");
-RRR.setFont(new Font("SansSerif", Font.ITALIC, 14));
-RRR.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JLabel RRR = new JLabel("Rent, Ride, Repeat");
+        RRR.setFont(new Font("SansSerif", Font.ITALIC, 14));
+        RRR.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-rrTextPanel.add(RentRover);
-rrTextPanel.add(Box.createVerticalStrut(3));
-rrTextPanel.add(RRR);
+        rrTextPanel.add(RentRover);
+        rrTextPanel.add(Box.createVerticalStrut(3));
+        rrTextPanel.add(RRR);
 
-rrPanel.add(RR_logo);
-rrPanel.add(rrTextPanel);
+        rrPanel.add(RR_logo);
+        rrPanel.add(rrTextPanel);
 
-// -------- TOP CONTAINER --------
-JPanel topContainer = new JPanel(new BorderLayout());
-topContainer.setOpaque(false);
-topContainer.add(adminPanel, BorderLayout.WEST);
-topContainer.add(rrPanel, BorderLayout.EAST);
+        // -------- TOP CONTAINER --------
+        JPanel topContainer = new JPanel(new BorderLayout());
+        topContainer.setOpaque(false);
+        topContainer.add(adminPanel, BorderLayout.WEST);
+        topContainer.add(rrPanel, BorderLayout.EAST);
 
-// -------- ADD TO FRAME --------
-JPanel topPanel = new JPanel(new BorderLayout());
-topPanel.setOpaque(true);
-topPanel.setBackground(Color.WHITE);
-topPanel.setPreferredSize(new Dimension(0, 110)); 
-topPanel.add(topContainer, BorderLayout.CENTER);
+        // -------- ADD TO FRAME --------
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setOpaque(true);
+        topPanel.setBackground(Color.WHITE);
+        topPanel.setPreferredSize(new Dimension(0, 110));
+        topPanel.add(topContainer, BorderLayout.CENTER);
 
-add(topPanel, BorderLayout.NORTH);
-
-
-
-
-
-
-
+        add(topPanel, BorderLayout.NORTH);
 
         // Main scrollable panel
         mainPanel = new JPanel();
@@ -158,15 +151,6 @@ add(topPanel, BorderLayout.NORTH);
             public void mouseClicked(MouseEvent e) { loadBookings(); }
         });
     }
-private void setLabelImage(JLabel label, String path, int width, int height) {
-    try {
-        ImageIcon icon = new ImageIcon(path);
-        Image img = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-        label.setIcon(new ImageIcon(img));
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-}
 
     private JLabel createNavLabel(String text) {
         JLabel lbl = new JLabel(text, SwingConstants.CENTER);
@@ -176,6 +160,12 @@ private void setLabelImage(JLabel label, String path, int width, int height) {
         lbl.setBackground(Color.WHITE);
         lbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         return lbl;
+    }
+
+    private ImageIcon scaleImage(byte[] bytes, int w, int h) {
+        ImageIcon raw = new ImageIcon(bytes);
+        Image scaled = raw.getImage().getScaledInstance(w, h, Image.SCALE_SMOOTH);
+        return new ImageIcon(scaled);
     }
 
     // ---------- LOAD DASHBOARD ----------
@@ -197,11 +187,9 @@ private void setLabelImage(JLabel label, String path, int width, int height) {
 
             mainPanel.setLayout(new GridLayout(1, 3, 50, 50));
 
-            mainPanel.add(createDashboardCard("Customers", customers, "C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\customer.png"));
-mainPanel.add(createDashboardCard("Cars", cars, "C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\car.png"));
-mainPanel.add(createDashboardCard("Bookings", bookings, "C:\\Users\\PC MOD NEPAL\\OneDrive\\Desktop\\ProjectImages\\booking.png"));
-
-
+            mainPanel.add(createDashboardCard("Customers", customers, "C:\\Users\\97798\\Desktop\\ProjectImages\\customer.png"));
+            mainPanel.add(createDashboardCard("Cars", cars, "C:\\Users\\97798\\Desktop\\ProjectImages\\car.png"));
+            mainPanel.add(createDashboardCard("Bookings", bookings, "C:\\Users\\97798\\Desktop\\ProjectImages\\booking.png"));
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -211,45 +199,36 @@ mainPanel.add(createDashboardCard("Bookings", bookings, "C:\\Users\\PC MOD NEPAL
     }
 
     private JPanel createDashboardCard(String title, int count, String iconPath) {
-    JPanel panel = new JPanel();
-    panel.setPreferredSize(new Dimension(250, 150));
-    panel.setBackground(Color.WHITE);
-    panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-    panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        JPanel panel = new JPanel();
+        panel.setPreferredSize(new Dimension(250, 150));
+        panel.setBackground(Color.WHITE);
+        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-    // Icon
-    JLabel lblIcon = new JLabel();
-    lblIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
-    try {
+        JLabel lblIcon = new JLabel();
+        lblIcon.setAlignmentX(Component.CENTER_ALIGNMENT);
         ImageIcon icon = new ImageIcon(iconPath);
-        Image img = icon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH); // bigger icon
+        Image img = icon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
         lblIcon.setIcon(new ImageIcon(img));
-    } catch (Exception e) {
-        e.printStackTrace();
+
+        JLabel lblCount = new JLabel(String.valueOf(count));
+        lblCount.setFont(new Font("SansSerif", Font.BOLD, 36));
+        lblCount.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblCount.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+
+        JLabel lblTitle = new JLabel(title);
+        lblTitle.setFont(new Font("SansSerif", Font.BOLD, 20));
+        lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+        lblTitle.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
+
+        panel.add(Box.createVerticalGlue());
+        panel.add(lblIcon);
+        panel.add(lblCount);
+        panel.add(lblTitle);
+        panel.add(Box.createVerticalGlue());
+
+        return panel;
     }
-
-    // Count
-    JLabel lblCount = new JLabel(String.valueOf(count));
-    lblCount.setFont(new Font("SansSerif", Font.BOLD, 36));
-    lblCount.setAlignmentX(Component.CENTER_ALIGNMENT);
-    lblCount.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
-
-    // Title
-    JLabel lblTitle = new JLabel(title);
-    lblTitle.setFont(new Font("SansSerif", Font.BOLD, 20));
-    lblTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
-    lblTitle.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
-
-    panel.add(Box.createVerticalGlue()); // pushes content to center nicely
-    panel.add(lblIcon);
-    panel.add(lblCount);
-    panel.add(lblTitle);
-    panel.add(Box.createVerticalGlue());
-
-    return panel;
-}
-
-
 
     // ---------- LOAD CUSTOMERS ----------
     private void loadCustomers() {
@@ -266,11 +245,7 @@ mainPanel.add(createDashboardCard("Bookings", bookings, "C:\\Users\\PC MOD NEPAL
                 Blob imgBlob = rs.getBlob("profile_picture");
 
                 ImageIcon img = null;
-                if (imgBlob != null) {
-                    img = new ImageIcon(imgBlob.getBytes(1, (int) imgBlob.length()));
-                    Image image = img.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-                    img = new ImageIcon(image);
-                }
+                if (imgBlob != null) img = scaleImage(imgBlob.getBytes(1, (int) imgBlob.length()), 100, 100);
 
                 mainPanel.add(createCustomerCard(id, username, email, balance, img));
             }
@@ -331,58 +306,90 @@ mainPanel.add(createDashboardCard("Bookings", bookings, "C:\\Users\\PC MOD NEPAL
     // ---------- LOAD CARS ----------
     private void loadCars() {
         mainPanel.removeAll();
-        mainPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
         try (Connection con = DB.getConnection()) {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT DISTINCT brand, model, price_per_day, vehicle_image, username FROM bookings");
+            ResultSet rs = stmt.executeQuery("SELECT DISTINCT brand, model, price_per_day, username FROM bookings");
             while (rs.next()) {
                 String brand = rs.getString("brand");
                 String model = rs.getString("model");
                 int price = rs.getInt("price_per_day");
                 String username = rs.getString("username");
-                Blob imgBlob = rs.getBlob("vehicle_image");
 
-                ImageIcon img = null;
-                if (imgBlob != null) {
-                    img = new ImageIcon(imgBlob.getBytes(1, (int) imgBlob.length()));
-                    Image image = img.getImage().getScaledInstance(120, 80, Image.SCALE_SMOOTH);
-                    img = new ImageIcon(image);
-                }
-
-                mainPanel.add(createCarCard(brand, model, price, username, img));
+                mainPanel.add(createCarCard(brand, model, price, username));
+                mainPanel.add(Box.createVerticalStrut(15));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         mainPanel.revalidate();
         mainPanel.repaint();
     }
 
-    private JPanel createCarCard(String brand, String model, int price, String username, ImageIcon img) {
-        JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(200, 200));
-        panel.setBackground(Color.WHITE);
-        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        panel.setLayout(new BorderLayout());
+    private JPanel createCarCard(String brand, String model, int price, String username) {
 
-        JLabel lblImg = new JLabel();
-        lblImg.setHorizontalAlignment(SwingConstants.CENTER);
-        if (img != null) lblImg.setIcon(img);
+    JPanel panel = new JPanel();
+    panel.setPreferredSize(new Dimension(650, 160));
+    panel.setBackground(Color.WHITE);
+    panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
+    panel.setLayout(new BorderLayout(15, 0));
 
-        JLabel lblInfo = new JLabel("<html>" + brand + " " + model + "<br/>Price: " + price + "</html>", SwingConstants.CENTER);
-
-        JButton deleteBtn = new JButton("Delete");
-        deleteBtn.addActionListener(e -> {
-            int option = JOptionPane.showConfirmDialog(this, "Delete this car booking?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
-            if (option == JOptionPane.YES_OPTION) deleteCar(username, brand, model);
-        });
-
-        panel.add(lblImg, BorderLayout.CENTER);
-        panel.add(lblInfo, BorderLayout.NORTH);
-        panel.add(deleteBtn, BorderLayout.SOUTH);
-
-        return panel;
+    // LEFT IMAGE
+    JLabel lblImg = new JLabel();
+    lblImg.setPreferredSize(new Dimension(180, 140));
+    try (Connection con = DB.getConnection()) {
+        PreparedStatement ps = con.prepareStatement(
+                "SELECT vehicle_image FROM bookings WHERE brand=? AND model=? LIMIT 1"
+        );
+        ps.setString(1, brand);
+        ps.setString(2, model);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            byte[] imgBytes = rs.getBytes("vehicle_image");
+            lblImg.setIcon(scaleImage(imgBytes, 180, 140));
+        }
+    } catch (Exception ex) {
+        ex.printStackTrace();
     }
+    lblImg.setHorizontalAlignment(SwingConstants.CENTER);
+    panel.add(lblImg, BorderLayout.WEST);
+
+    // RIGHT PANEL
+    JPanel right = new JPanel();
+    right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
+    right.setOpaque(false);
+    right.setBorder(BorderFactory.createEmptyBorder(12, 10, 10, 10));
+
+    JLabel info = new JLabel(
+            "<html><b style='font-size:18px'>" + brand + " " + model + "</b>" +
+                    "<br><br>Owner: " + username +
+                    "<br>Price/day: " + price + "</html>"
+    );
+    right.add(info);
+
+    // DELETE BUTTON
+    JButton deleteBtn = new JButton("Delete");
+    deleteBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
+    deleteBtn.addActionListener(e -> {
+        int option = JOptionPane.showConfirmDialog(
+                this,
+                "Delete this car booking?",
+                "Confirm Delete",
+                JOptionPane.YES_NO_OPTION
+        );
+        if (option == JOptionPane.YES_OPTION)
+            deleteCar(username, brand, model);
+    });
+    right.add(Box.createVerticalStrut(10));
+    right.add(deleteBtn);
+
+    panel.add(right, BorderLayout.CENTER);
+
+    return panel;
+}
+
 
     private void deleteCar(String username, String brand, String model) {
         try (Connection con = DB.getConnection()) {
@@ -401,73 +408,74 @@ mainPanel.add(createDashboardCard("Bookings", bookings, "C:\\Users\\PC MOD NEPAL
     // ---------- LOAD BOOKINGS ----------
     private void loadBookings() {
         mainPanel.removeAll();
-        mainPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+
         try (Connection con = DB.getConnection()) {
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT booking_id, username, brand, model, booked_by, vehicle_image FROM bookings");
+            ResultSet rs = stmt.executeQuery("SELECT booking_id, username, brand, model, booked_by FROM bookings ORDER BY booking_id DESC");
             while (rs.next()) {
                 int id = rs.getInt("booking_id");
                 String username = rs.getString("username");
                 String brand = rs.getString("brand");
                 String model = rs.getString("model");
                 String bookedBy = rs.getString("booked_by");
-                Blob imgBlob = rs.getBlob("vehicle_image");
 
-                ImageIcon img = null;
-                if (imgBlob != null) {
-                    img = new ImageIcon(imgBlob.getBytes(1, (int) imgBlob.length()));
-                    Image image = img.getImage().getScaledInstance(120, 80, Image.SCALE_SMOOTH);
-                    img = new ImageIcon(image);
-                }
-
-                mainPanel.add(createBookingCard(id, username, brand, model, bookedBy, img));
+                mainPanel.add(createBookingCard(id, username, brand, model, bookedBy));
+                mainPanel.add(Box.createVerticalStrut(15));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         mainPanel.revalidate();
         mainPanel.repaint();
     }
 
-    private JPanel createBookingCard(int id, String username, String brand, String model, String bookedBy, ImageIcon img) {
+    private JPanel createBookingCard(int id, String username, String brand, String model, String bookedBy) {
+
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(220, 220));
+        panel.setPreferredSize(new Dimension(650, 160));
         panel.setBackground(Color.WHITE);
         panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
-        panel.setLayout(new BorderLayout());
+        panel.setLayout(new BorderLayout(15, 0));
 
+        // LEFT IMAGE
         JLabel lblImg = new JLabel();
+        lblImg.setPreferredSize(new Dimension(180, 140));
+        try (Connection con = DB.getConnection()) {
+            PreparedStatement ps = con.prepareStatement("SELECT vehicle_image FROM bookings WHERE booking_id=? LIMIT 1");
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                byte[] imgBytes = rs.getBytes("vehicle_image");
+                lblImg.setIcon(scaleImage(imgBytes, 180, 140));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
         lblImg.setHorizontalAlignment(SwingConstants.CENTER);
-        if (img != null) lblImg.setIcon(img);
+        panel.add(lblImg, BorderLayout.WEST);
 
-        JLabel lblInfo = new JLabel("<html>User: " + username + "<br/>Car: " + brand + " " + model + "<br/>Booked By: " + bookedBy + "</html>", SwingConstants.CENTER);
+        // RIGHT PANEL
+        JPanel right = new JPanel();
+        right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
+        right.setOpaque(false);
+        right.setBorder(BorderFactory.createEmptyBorder(12, 10, 10, 10));
 
-        JButton deleteBtn = new JButton("Delete");
-        deleteBtn.addActionListener(e -> {
-            int option = JOptionPane.showConfirmDialog(this, "Delete this booking?", "Confirm Delete", JOptionPane.YES_NO_OPTION);
-            if (option == JOptionPane.YES_OPTION) deleteBooking(id);
-        });
+        JLabel info = new JLabel(
+                "<html><b style='font-size:18px'>Booking Details</b>" +
+                        "<br><br>Car: " + brand + " " + model +
+                        "<br>User: " + username +
+                        "<br>Booked By: " + bookedBy + "</html>"
+        );
 
-        panel.add(lblImg, BorderLayout.CENTER);
-        panel.add(lblInfo, BorderLayout.NORTH);
-        panel.add(deleteBtn, BorderLayout.SOUTH);
+        right.add(info);
+        panel.add(right, BorderLayout.CENTER);
 
         return panel;
     }
 
-    private void deleteBooking(int id) {
-        try (Connection con = DB.getConnection()) {
-            PreparedStatement ps = con.prepareStatement("DELETE FROM bookings WHERE booking_id=?");
-            ps.setInt(1, id);
-            ps.executeUpdate();
-
-            loadBookings();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Admin_DashBoard().setVisible(true));
+        SwingUtilities.invokeLater(() -> new Admin_Dash().setVisible(true));
     }
 }
